@@ -32,6 +32,9 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
+# Salin konfigurasi nginx ke dalam server
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php artisan view:cache && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php-fpm -D && php artisan config:cache && php artisan route:cache && php artisan view:cache && nginx -g 'daemon off;'"]
