@@ -48,7 +48,7 @@
                 </p>
                 
                 <div class="bg-white border-4 border-black p-3 mb-3 select-none">
-                    <img src="{{ asset('images/qris.png') }}" 
+                    <img src="{{ asset('qris/qris.png') }}" 
                          alt="QRIS Code" class="w-48 h-48 object-contain">
                 </div>
                 
