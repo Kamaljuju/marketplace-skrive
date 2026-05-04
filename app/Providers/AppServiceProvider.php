@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Paksa Laravel menggunakan HTTPS jika di lingkungan production (Railway)
-        if (config('app.env') === 'production') {
+        // Selalu paksa Laravel menggunakan HTTPS di server Railway / Production
+        if (config('app.env') === 'production' || env('FORCE_HTTPS', true)) {
             URL::forceScheme('https');
         }
     }
