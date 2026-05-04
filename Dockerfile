@@ -29,10 +29,12 @@ COPY . /var/www
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Membuat folder uploads dan mengatur izin akses
+RUN mkdir -p /var/www/public/uploads && \
+    chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads && \
+    chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads
 
-# Salin konfigurasi nginx ke dalam server
+# Salin konfigurasi nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
