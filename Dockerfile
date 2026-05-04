@@ -37,6 +37,10 @@ RUN mkdir -p /var/www/public/uploads && \
 # Salin konfigurasi nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Tambahkan konfigurasi PHP untuk memperbesar batas upload file ke 50 MB
+RUN echo "upload_max_filesize=50M" > /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "post_max_size=50M" >> /usr/local/etc/php/conf.d/uploads.ini
+
 EXPOSE 80
 
 # Memperbaiki kepemilikan Volume uploads saat container dinyalakan sebelum menjalankan Nginx & PHP-FPM
