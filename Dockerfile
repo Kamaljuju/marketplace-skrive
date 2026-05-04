@@ -29,7 +29,7 @@ COPY . /var/www
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Membuat folder uploads dan mengatur izin akses
+# Membuat folder uploads dan mengatur izin akses awal
 RUN mkdir -p /var/www/public/uploads && \
     chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads && \
     chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads
@@ -39,4 +39,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
-CMD ["sh", "-c", "php-fpm -D && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && nginx -g 'daemon off;'"]
+# Memperbaiki kepemilikan Volume uploads saat container dinyalakan sebelum menjalankan Nginx & PHP-FPM
+CMD ["sh", "-c", "chown -R www-data:www-data /var/www/public/uploads && chmod -R 775 /var/www/public/uploads && php-fpm -D && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && nginx -g 'daemon off;'"]
